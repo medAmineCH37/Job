@@ -1,8 +1,6 @@
 package com.example.Job;
 
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,17 +32,7 @@ public class JobController {
     }
 
     @PutMapping("admin/{id}/etat")
-    public Job updateEtat(@PathVariable int id, @RequestParam boolean etat, KeycloakAuthenticationToken auth) {
-        KeycloakPrincipal<KeycloakSecurityContext> principal = (KeycloakPrincipal<KeycloakSecurityContext>) auth.getPrincipal();
-        KeycloakSecurityContext context = principal.getKeycloakSecurityContext();
-        boolean hasAdminRole = context.getToken().getRealmAccess().isUserInRole("admin");
-
-        if (hasAdminRole) {
-            return service.updateEtat(id, etat);
-        }
-        else {
-            return null;
-        }
-
+    public Job updateEtat(@PathVariable int id, @RequestParam boolean etat) {
+        return service.updateEtat(id, etat);
     }
 }
